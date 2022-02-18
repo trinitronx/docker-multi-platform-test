@@ -1,0 +1,30 @@
+version: "3.4"
+
+services:
+  multi-platform-demo:
+    build:
+      context: .
+      # dockerfile: ./Dockerfile
+      # args:
+      target: release
+      x-bake:
+        tags:
+          - test-tag:foo
+        platforms:
+          - linux/amd64
+          - linux/arm64
+          - linux/ppc64le
+          - linux/riscv64
+          - linux/s390x
+          - linux/386
+          - linux/arm/v7
+          - linux/arm/v6
+        cache-from:
+          - type=local,src=./cache/multi-platform-demo
+        cache-to:
+          - type=local,dest=./cache/multi-platform-demo
+        output: type=registry,push=false,name=trinitronx/multi-platform-demo
+#        output: type=local,dest=./build/multi-platform-demo-files
+#        output: type=tar,dest=./build/multi-platform.tar
+#        output: type=image,push=false,name=trinitronx/multi-platform-demo
+#        output: type=oci,dest=./build/multi-platform.oci.tar
