@@ -1,3 +1,5 @@
+ARG RELEASE_IMAGE=alpine:edge
+
 FROM --platform=$BUILDPLATFORM tonistiigi/xx AS xx
 
 FROM --platform=$BUILDPLATFORM alpine:edge as compile
@@ -10,7 +12,7 @@ RUN echo "BUILDPLATFORM=${BUILDPLATFORM}" | tee /etc/arch-release
 RUN uname -m
 RUN xx-info env | tee /etc/xx-info-env
 
-FROM alpine:edge as release
+FROM ${RELEASE_IMAGE} as release
 ARG TARGETPLATFORM
 
 COPY --from=compile /etc/arch-release /etc/
